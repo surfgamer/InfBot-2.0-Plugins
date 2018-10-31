@@ -4,21 +4,22 @@ module.exports.run = async (bot, message, args, pluginList, commandList, message
   message.delete();
   let a = messageArray[1]*1;
   let b = messageArray[2]*1;
-  if(typeof(a) == 'number' && typeof(b) == 'number') {
-	  let s = (b**(4)/4)-(a**(4)/4);
-	  message.channel.send({embed: {
-		  'title': 'int(x**3,x='+a+'..'+b+')',
-		  'color': '16777011',
-		  'description': String(s)
-		  }});
-		  } else {
-			  message.channel.send({embed: {
-				  'title': 'Введите y и x',
-				  'color': '16777011',
-				  'author': 'message.author.username, message.author.avatarURL'
-			  }});
-		  }
+  let s = (b**(4)/4)-(a**(4)/4);
+  let title;
+  let description;
+  if(isNaN(s)) {
+	  title = 'Ошибка';
+	  description = 'Неверное выражение';
+} else {
+	title = 'int(x**3,x='+a+'..'+b+')';
+	description = String(s);
 }
+	let embed = new Discord.RichEmbed()
+	.setTitle(title)
+	.setAuthor(message.author.username, message.author.avatarURL)
+	.setColor(16777011)
+	.setDescription(description);
+	message.channel.send({embed});
 module.exports.help = {
 	name: "sparabola",
 	desc: "Площадь фигуры кубической функции ограниченной линиями, укажите y и x.",
